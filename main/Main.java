@@ -1,46 +1,49 @@
 package main;
 
 import model.Account;
-import model.Customer;
+import model.CurrentAccount;
 import model.SavingsAccount;
+import service.BankService;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Customer customer = new Customer(
-                1,
-                "Ajeet Kumar",
-                20,
-                "9876543210");
+        BankService bank = new BankService();
 
-        customer.displayCustomer();
-
-        System.out.println();
-
-        Account account = new SavingsAccount(
+        Account account1 = new SavingsAccount(
                 101,
                 10000);
 
-        account.displayBalance();
+        Account account2 = new CurrentAccount(
+                102,
+                25000);
 
-        account.deposit(5000);
+        Account account3 = new SavingsAccount(
+                103,
+                5000);
 
-        try {
+        bank.addAccount(account1);
 
-            account.withdraw(2000);
+        bank.addAccount(account2);
 
-            account.withdraw(3000);
+        bank.addAccount(account3);
 
-        } catch (Exception e) {
+        bank.showAllAccounts();
 
-            System.out.println(e.getMessage());
+        Account account = bank.findAccount(102);
+
+        if (account != null) {
+
+            System.out.println("\nAccount Found");
+
+            System.out.println(
+                    account.getAccountNumber());
+
+            account.displayBalance();
 
         }
 
-        account.displayBalance();
-
-        account.displayTransactions();
-
     }
+
 }
