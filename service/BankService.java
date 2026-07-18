@@ -93,6 +93,50 @@ public class BankService {
 
     }
 
+    // add Transfer() -----------------------------
+
+    public void transfer(int fromAccountNumber,
+            int toAccountNumber,
+            double amount) {
+
+        Account fromAccount = findAccount(fromAccountNumber);
+        Account toAccount = findAccount(toAccountNumber);
+
+        if (fromAccount == null) {
+            System.out.println("Sender account not found.");
+            return;
+        }
+
+        if (toAccount == null) {
+            System.out.println("Receiver account not found.");
+            return;
+        }
+
+        if (amount <= 0) {
+            System.out.println("Invalid transfer amount.");
+            return;
+        }
+
+        try {
+
+            fromAccount.withdraw(amount);
+
+            toAccount.deposit(amount);
+
+            fromAccount.addTransaction("Transfer Out", amount);
+
+            toAccount.addTransaction("Transfer In", amount);
+
+            System.out.println("Transfer completed successfully.");
+
+        } catch (InsufficientBalanceException e) {
+
+            System.out.println(e.getMessage());
+
+        }
+
+    }
+
     // Display All Accounts
     public void showAllAccounts() {
 

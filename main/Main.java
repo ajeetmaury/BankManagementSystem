@@ -31,28 +31,27 @@ public class Main {
 
         bank.showAllAccounts();
 
-        bank.withdraw(101, 500000);
+        // --------------------
+        System.out.println("\nTransfer Rs.3000 from Account 101 to Account 102");
 
-        System.out.println("\nDeposit 5000 into Account 101");
+        bank.transfer(101, 102, 3000);
 
-        bank.deposit(101, 5000);
+        System.out.println("\n===== Sender Account =====");
 
-        System.out.println();
+        Account sender = bank.findAccount(101);
 
-        System.out.println("Withdraw 3000 from Account 101");
+        if (sender != null) {
+            sender.displayBalance();
+            sender.displayTransactions();
+        }
 
-        bank.withdraw(101, 3000);
+        System.out.println("\n===== Receiver Account =====");
 
-        System.out.println();
+        Account receiver = bank.findAccount(102);
 
-        Account account = bank.findAccount(101);
-
-        if (account != null) {
-
-            account.displayBalance();
-
-            account.displayTransactions();
-
+        if (receiver != null) {
+            receiver.displayBalance();
+            receiver.displayTransactions();
         }
 
     }

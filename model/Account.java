@@ -29,7 +29,7 @@ public abstract class Account {
         return balance;
     }
 
-    protected void addTransaction(String type, double amount) {
+    public void addTransaction(String type, double amount) {
         transactions.add(new Transaction(type, amount));
     }
 
