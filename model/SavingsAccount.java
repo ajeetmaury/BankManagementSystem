@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientBalanceException;
+
 public class SavingsAccount extends Account {
 
     public SavingsAccount(int accountNumber, double balance) {
@@ -13,24 +15,32 @@ public class SavingsAccount extends Account {
 
         balance += amount;
 
+        addTransaction(
+                "Deposit",
+                amount);
+
         System.out.println("Deposit Successful.");
 
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount)
+            throws InsufficientBalanceException {
 
-        if (amount <= balance) {
+        if (amount > balance) {
 
-            balance -= amount;
-
-            System.out.println("Withdraw Successful.");
-
-        } else {
-
-            System.out.println("Insufficient Balance.");
+            throw new InsufficientBalanceException(
+                    "Insufficient Balance.");
 
         }
+
+        balance -= amount;
+
+        addTransaction(
+                "Withdraw",
+                amount);
+
+        System.out.println("Withdraw Successful.");
 
     }
 

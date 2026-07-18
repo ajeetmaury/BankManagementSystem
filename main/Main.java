@@ -1,7 +1,7 @@
 package main;
 
-import model.Customer;
 import model.Account;
+import model.Customer;
 import model.SavingsAccount;
 
 public class Main {
@@ -11,7 +11,7 @@ public class Main {
         Customer customer = new Customer(
                 1,
                 "Ajeet Kumar",
-                21,
+                20,
                 "9876543210");
 
         customer.displayCustomer();
@@ -26,10 +26,21 @@ public class Main {
 
         account.deposit(5000);
 
-        account.withdraw(2000);
+        try {
+
+            account.withdraw(2000);
+
+            account.withdraw(3000);
+
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+
+        }
 
         account.displayBalance();
 
-    }
+        account.displayTransactions();
 
+    }
 }

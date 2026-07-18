@@ -1,5 +1,7 @@
 package model;
 
+import exception.InsufficientBalanceException;
+
 public class CurrentAccount extends Account {
 
     public CurrentAccount(int accountNumber, double balance) {
@@ -13,14 +15,23 @@ public class CurrentAccount extends Account {
 
         balance += amount;
 
+        addTransaction(
+                "Deposit",
+                amount);
+
         System.out.println("Deposit Successful.");
 
     }
 
     @Override
-    public void withdraw(double amount) {
+    public void withdraw(double amount)
+            throws InsufficientBalanceException {
 
         balance -= amount;
+
+        addTransaction(
+                "Withdraw",
+                amount);
 
         System.out.println("Withdraw Successful.");
 
