@@ -31,16 +31,27 @@ public class Main {
 
         bank.showAllAccounts();
 
-        Account account = bank.findAccount(102);
+        bank.withdraw(101, 500000);
+
+        System.out.println("\nDeposit 5000 into Account 101");
+
+        bank.deposit(101, 5000);
+
+        System.out.println();
+
+        System.out.println("Withdraw 3000 from Account 101");
+
+        bank.withdraw(101, 3000);
+
+        System.out.println();
+
+        Account account = bank.findAccount(101);
 
         if (account != null) {
 
-            System.out.println("\nAccount Found");
-
-            System.out.println(
-                    account.getAccountNumber());
-
             account.displayBalance();
+
+            account.displayTransactions();
 
         }
 

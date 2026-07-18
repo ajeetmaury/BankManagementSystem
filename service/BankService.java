@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Account;
+import exception.InsufficientBalanceException;
 
 public class BankService {
 
@@ -30,6 +31,65 @@ public class BankService {
     public Account findAccount(int accountNumber) {
 
         return accounts.get(accountNumber);
+
+    }
+
+    // ------------------------
+
+    public void deposit(int accountNumber, double amount) {
+
+        Account account = findAccount(accountNumber);
+
+        if (account == null) {
+
+            System.out.println("Account not found.");
+            return;
+
+        }
+
+        if (amount <= 0) {
+
+            System.out.println("Invalid deposit amount.");
+            return;
+
+        }
+
+        account.deposit(amount);
+
+        System.out.println("Deposit completed successfully.");
+
+    }
+
+    // --------------------
+    public void withdraw(int accountNumber, double amount) {
+
+        Account account = findAccount(accountNumber);
+
+        if (account == null) {
+
+            System.out.println("Account not found.");
+            return;
+
+        }
+
+        if (amount <= 0) {
+
+            System.out.println("Invalid withdrawal amount.");
+            return;
+
+        }
+
+        try {
+
+            account.withdraw(amount);
+
+            System.out.println("Withdrawal completed successfully.");
+
+        } catch (InsufficientBalanceException e) {
+
+            System.out.println(e.getMessage());
+
+        }
 
     }
 
