@@ -1,6 +1,7 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import model.Admin;
@@ -55,6 +56,18 @@ public class LoginService {
         }
 
         return null;
+
+    }
+
+    public Collection<Customer> getAllCustomers() {
+
+        return customers;
+
+    }
+
+    public void loadCustomer(Customer customer) {
+
+        customers.add(customer);
 
     }
 

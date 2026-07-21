@@ -6,7 +6,25 @@ import java.util.Map;
 import model.Account;
 import exception.InsufficientBalanceException;
 
+import java.util.Collection;
+
 public class BankService {
+
+    // ===================================
+    public void loadAccount(Account account) {
+
+        accounts.put(
+                account.getAccountNumber(),
+                account);
+
+    }
+
+    // Add Getter
+    public Collection<Account> getAllAccounts() {
+
+        return accounts.values();
+
+    }
 
     // Stores all accounts
     private Map<Integer, Account> accounts;

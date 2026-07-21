@@ -39,4 +39,20 @@ public class Customer extends Person {
         System.out.println("Customer ID : " + customerId);
         displayPerson();
     }
+
+    public String toFileString() {
+
+        return customerId
+                + ","
+                + getName()
+                + ","
+                + getAge()
+                + ","
+                + getPhone()
+                + ","
+                + username
+                + ","
+                + password;
+
+    }
 }

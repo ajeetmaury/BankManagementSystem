@@ -1,5 +1,6 @@
 package ui;
 
+import java.util.List;
 import java.util.Scanner;
 import model.Account;
 import model.CurrentAccount;
@@ -7,6 +8,7 @@ import model.Customer;
 import model.SavingsAccount;
 import service.BankService;
 import service.LoginService;
+import util.FileManager;
 
 public class BankApplication {
 
@@ -17,6 +19,8 @@ public class BankApplication {
 
     private LoginService loginService;
 
+    private FileManager fileManager;
+
     // Constructor
     public BankApplication() {
 
@@ -26,9 +30,11 @@ public class BankApplication {
 
         loginService = new LoginService();
 
-        initializeAccounts();
+        fileManager = new FileManager();
 
-        initializeCustomers();
+        loadOrCreateAccounts();
+
+        loadOrCreateCustomers();
 
     }
 
@@ -291,26 +297,26 @@ public class BankApplication {
     // Deposit
     private void depositMoney() {
 
-        System.out.print("\nEnter Account Number : ");
-        int accountNumber = scanner.nextInt();
+        int accountNumber = readAccountNumber();
 
-        System.out.print("Enter Deposit Amount : ");
-        double amount = scanner.nextDouble();
+        double amount = readAmount("Enter Deposit Amount : ");
 
         bankService.deposit(accountNumber, amount);
+
+        saveData();
 
     }
 
     // Withdraw
     private void withdrawMoney() {
 
-        System.out.print("\nEnter Account Number : ");
-        int accountNumber = scanner.nextInt();
+        int accountNumber = readAccountNumber();
 
-        System.out.print("Enter Withdrawal Amount : ");
-        double amount = scanner.nextDouble();
+        double amount = readAmount("Enter Withdrawal Amount : ");
 
         bankService.withdraw(accountNumber, amount);
+
+        saveData();
 
     }
 
@@ -318,18 +324,19 @@ public class BankApplication {
     private void transferMoney() {
 
         System.out.print("\nEnter Sender Account Number : ");
-        int senderAccount = scanner.nextInt();
+        int sender = scanner.nextInt();
 
         System.out.print("Enter Receiver Account Number : ");
-        int receiverAccount = scanner.nextInt();
+        int receiver = scanner.nextInt();
 
-        System.out.print("Enter Transfer Amount : ");
-        double amount = scanner.nextDouble();
+        double amount = readAmount("Enter Transfer Amount : ");
 
         bankService.transfer(
-                senderAccount,
-                receiverAccount,
+                sender,
+                receiver,
                 amount);
+
+        saveData();
 
     }
 
@@ -359,5 +366,82 @@ public class BankApplication {
     }
 
     // Helper Methods
+    private void saveData() {
+
+        fileManager.saveAccounts(
+                bankService.getAllAccounts());
+
+        fileManager.saveCustomers(
+                loginService.getAllCustomers());
+
+    }
+
+    private int readAccountNumber() {
+
+        System.out.print("Enter Account Number : ");
+
+        return scanner.nextInt();
+
+    }
+
+    private double readAmount(String message) {
+
+        System.out.print(message);
+
+        return scanner.nextDouble();
+
+    }
+
+    // loadOrCreateAccounts
+    private void loadOrCreateAccounts() {
+
+        List<Account> loadedAccounts = fileManager.loadAccounts();
+
+        if (loadedAccounts.isEmpty()) {
+
+            initializeAccounts();
+
+            fileManager.saveAccounts(
+                    bankService.getAllAccounts());
+
+        }
+
+        else {
+
+            for (Account account : loadedAccounts) {
+
+                bankService.loadAccount(account);
+
+            }
+
+        }
+
+    }
+
+    // loadOrCreateCustomers
+    private void loadOrCreateCustomers() {
+
+        List<Customer> loadedCustomers = fileManager.loadCustomers();
+
+        if (loadedCustomers.isEmpty()) {
+
+            initializeCustomers();
+
+            fileManager.saveCustomers(
+                    loginService.getAllCustomers());
+
+        }
+
+        else {
+
+            for (Customer customer : loadedCustomers) {
+
+                loginService.loadCustomer(customer);
+
+            }
+
+        }
+
+    }
 
 }
